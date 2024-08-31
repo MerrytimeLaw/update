@@ -3,6 +3,18 @@
 # Update the system
 source ~/.bashrc
 
+#Check for kernel errors
+echo "Checking for kernel errors..."
+if sudo dmesg | grep -i "error" >/dev/null; then
+    sleep 0.5
+    echo -e "\e[33m(dmesg) Kernel Errors Have Been Found For Review\e[0m"
+    sleep 0.5
+    sudo dmesg | grep -i "error" | sed 's/\(.*\)/\x1b[33m(dmesg) \1\x1b[0m/'
+else
+    echo "No Kernel Errors Found"
+fi
+sleep 0.5
+
 # Update apt
 sudo apt update 2>/dev/null | sed 's/\(.*\)/\x1b[32m(apt) \1\x1b[0m/'
 
